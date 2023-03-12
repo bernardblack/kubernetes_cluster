@@ -1,0 +1,6 @@
+pod_network_cidr: 192.168.0.0/16
+master_ip: 192.168.100.100
+pod_network_manifest_file: https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
+rbac_manifest_file: https://docs.projectcalico.org/v3.3/getting-started/kubernetes/installation/hosted/rbac-kdd.yaml
+
+

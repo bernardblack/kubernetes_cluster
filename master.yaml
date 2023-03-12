@@ -8,12 +8,6 @@
   gather_facts: yes
   connection: ssh
 
-  vars:
-    pod_network_cidr: 192.168.0.0/16
-    master_ip: 192.168.100.100
-    pod_network_manifest_file: https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
-    rbac_manifest_file: https://docs.projectcalico.org/v3.3/getting-started/kubernetes/installation/hosted/rbac-kdd.yaml
-
   tasks:
 
    - name: Intilizing Kubernetes Cluster
@@ -21,7 +15,7 @@
      become_method: sudo
      become: yes
      # command: kubeadm init --pod-network-cidr "{{ pod_network_cidr }}"  --apiserver-advertise-address "{{ master_ip }}"
-     command: kubeadm init --control-plane-endpoint=master-node01 --pod-network-cidr=192.168.0.0/16
+     command: kubeadm init --control-plane-endpoint=master-node01 --pod-network-cidr={{ pod_network_cidr }}
      run_once: true
      delegate_to: "{{ master_ip }}"
 
@@ -64,9 +58,8 @@
      become: yes
      command: "{{ item }}"
      with_items:
-       #- kubectl apply -f {{ pod_network_manifest_file }}
+       - kubectl apply -f {{ pod_network_manifest_file }}
        #- kubectl apply -f {{ rbac_manifest_file }}
-       - echo "pass"
 
    - name: Renew certs
      become_user: root
